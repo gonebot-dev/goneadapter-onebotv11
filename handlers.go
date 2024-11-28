@@ -68,7 +68,7 @@ func messageDecoder(rawMsg string) {
 				msg.IsToMe = true
 			}
 		}
-		msg.Attach(message.MessageSegment{
+		msg.AttachSegment(message.MessageSegment{
 			Type:    msgInterface.Type,
 			Adapter: useAdapter,
 			Data:    serializer.Serialize(msgInterface.Data.(map[string]any), reflect.TypeOf(serializer)),
@@ -89,7 +89,7 @@ func noticeDecoder(rawMsg string) {
 		log.Printf("[ONEBOTV11] | receiveHandler: Invalid notice JSON %s\n", rawMsg)
 		return
 	}
-	noticeType := gjson.Get(rawMsg, "notice_type")
+	noticeType := gjson.Get(rawMsg, "sub_type")
 
 	var msg message.Message
 
@@ -157,6 +157,9 @@ func noticeDecoder(rawMsg string) {
 
 		msg.IsToMe = noticeInfo.TargetID == noticeInfo.SelfID
 		msg.Group = strconv.FormatInt(noticeInfo.GroupID, 10)
+		if msg.Group == "0" {
+			msg.Group = ""
+		}
 
 	case "lucky_king":
 		var noticeInfo RedPacketLuckyKing
@@ -174,18 +177,24 @@ func noticeDecoder(rawMsg string) {
 
 	default:
 		log.Printf("[ONEBOTV11] | receiveHandler: Unsupported notice type %s\n", noticeType.String())
+		return
 	}
 	notice := noticeType.String()
 	// Special handle for poke 🤬
 	if notice == "poke" {
-		notice = "group_poke"
+		if gjson.Get(rawMsg, "group_id").String() == "" {
+			notice = "friend_poke"
+		} else {
+			notice = "group_poke"
+		}
 	}
-	serializer := message.GetSerializer(noticeType.String(), OneBotV11.Name)
-	msg.Attach(message.MessageSegment{
-		Type:    noticeType.String(),
+	serializer := message.GetSerializer(notice, OneBotV11.Name)
+	msg.AttachSegment(message.MessageSegment{
+		Type:    notice,
 		Adapter: OneBotV11.Name,
 		Data:    rawMsg,
 	}, serializer)
+	OneBotV11.ReceiveChannel.Push(msg, true)
 
 	end := ""
 	if len(rawMsg) > message.LOG_MESSAGE_LEN_THRESHOLD {

@@ -1,9 +1,9 @@
-github.com/gonebot-dev/gonebot v0.1.5-0.20240918023545-a943c9502ac6 h1:w1YMwlVtaI7kUBjlbTxkZci8tr7NdIWRP1pcuY6LJ4w=
-github.com/gonebot-dev/gonebot v0.1.5-0.20240918023545-a943c9502ac6/go.mod h1:bEq8MnDgDADvIdgv/qya6JQIgepa0GDaCYlkOv5HrbQ=
+github.com/gonebot-dev/gonebot v1.0.1 h1:LiQr4qzCixKTPaqdZJ8lOfd5IJZ6rwzgi4c8ZeJ5z/k=
+github.com/gonebot-dev/gonebot v1.0.1/go.mod h1:sULrcK+OhVNJ5GWhcEDEv7ABtuApxvRpx5+CRcTFL84=
 github.com/gorilla/websocket v1.5.3 h1:saDtZ6Pbx/0u+bgYQ3q96pZgCzfhKXGPqt7kZ72aNNg=
 github.com/gorilla/websocket v1.5.3/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
-github.com/tidwall/gjson v1.17.3 h1:bwWLZU7icoKRG+C+0PNwIKC6FCJO/Q3p2pZvuP0jN94=
-github.com/tidwall/gjson v1.17.3/go.mod h1:/wbyibRr2FHMks5tjHJ5F8dMZh3AcwJEMf5vlfC0lxk=
+github.com/tidwall/gjson v1.18.0 h1:FIDeeyB800efLX89e5a8Y0BNH+LOngJyGrIWxG2FKQY=
+github.com/tidwall/gjson v1.18.0/go.mod h1:/wbyibRr2FHMks5tjHJ5F8dMZh3AcwJEMf5vlfC0lxk=
 github.com/tidwall/match v1.1.1 h1:+Ho715JplO36QYgwN9PGYNhgZvoUSc9X2c80KVTi+GA=
 github.com/tidwall/match v1.1.1/go.mod h1:eRSPERbgtNPcGhD8UCthc6PmLEQXEWd3PRB5JTxsfmM=
 github.com/tidwall/pretty v1.2.0 h1:RWIZEg2iJ8/g6fDDYzMpobmaoGh5OLl4AXtGUGPcqCs=

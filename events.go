@@ -77,8 +77,12 @@ type GroupFileUpload struct {
 	File   FileObject `json:"file"`
 }
 
-func (fileUpload GroupFileUpload) Matcher(typeName, adapterName string) bool {
-	return typeName == "group_upload" && adapterName == OneBotV11.Name
+func (fileUpload GroupFileUpload) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (fileUpload GroupFileUpload) TypeName() string {
+	return "group_upload"
 }
 
 func (fileUpload GroupFileUpload) ToRawText(msg message.MessageSegment) string {
@@ -100,8 +104,12 @@ type AdminChange struct {
 	UserID int64 `json:"user_id"`
 }
 
-func (adminChanage AdminChange) Matcher(typeName, adapterName string) bool {
-	return typeName == "group_admin" && adapterName == OneBotV11.Name
+func (adminChange AdminChange) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (adminChange AdminChange) TypeName() string {
+	return "group_admin"
 }
 
 func (adminChanage AdminChange) ToRawText(msg message.MessageSegment) string {
@@ -124,8 +132,12 @@ type GroupMemberDecrease struct {
 	UserID int64 `json:"user_id"`
 }
 
-func (groupMemberDecrease GroupMemberDecrease) Matcher(typeName, adapterName string) bool {
-	return typeName == "group_decrease" && adapterName == OneBotV11.Name
+func (groupMemberDecrease GroupMemberDecrease) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (groupMemberDecrease GroupMemberDecrease) TypeName() string {
+	return "group_decrease"
 }
 
 func (groupMemberDecrease GroupMemberDecrease) ToRawText(msg message.MessageSegment) string {
@@ -148,8 +160,12 @@ type GroupMemberIncrease struct {
 	UserID int64 `json:"user_id"`
 }
 
-func (groupMemberIncrease GroupMemberIncrease) Matcher(typeName, adapterName string) bool {
-	return typeName == "group_increase" && adapterName == OneBotV11.Name
+func (groupMemberIncrease GroupMemberIncrease) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (groupMemberIncrease GroupMemberIncrease) TypeName() string {
+	return "group_increase"
 }
 
 func (groupMemberIncrease GroupMemberIncrease) ToRawText(msg message.MessageSegment) string {
@@ -173,8 +189,12 @@ type GroupBan struct {
 	Duration int64 `json:"duration"`
 }
 
-func (groupBan GroupBan) Matcher(typeName, adapterName string) bool {
-	return typeName == "group_ban" && adapterName == OneBotV11.Name
+func (groupBan GroupBan) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (groupBan GroupBan) TypeName() string {
+	return "group_ban"
 }
 
 func (groupBan GroupBan) ToRawText(msg message.MessageSegment) string {
@@ -192,8 +212,12 @@ type FriendAdd struct {
 	UserID     int64  `json:"user_id"`
 }
 
-func (friendAdd FriendAdd) Matcher(typeName, adapterName string) bool {
-	return typeName == "friend_add" && adapterName == OneBotV11.Name
+func (friendAdd FriendAdd) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (friendAdd FriendAdd) TypeName() string {
+	return "friend_add"
 }
 
 func (friendAdd FriendAdd) ToRawText(msg message.MessageSegment) string {
@@ -216,8 +240,12 @@ type GroupRecall struct {
 	MessageID int64 `json:"message_id"`
 }
 
-func (groupRecall GroupRecall) Matcher(typeName, adapterName string) bool {
-	return typeName == "group_recall" && adapterName == OneBotV11.Name
+func (groupRecall GroupRecall) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (groupRecall GroupRecall) TypeName() string {
+	return "group_recall"
 }
 
 func (groupRecall GroupRecall) ToRawText(msg message.MessageSegment) string {
@@ -237,8 +265,12 @@ type FriendRecall struct {
 	MessageID int64 `json:"message_id"`
 }
 
-func (friendRecall FriendRecall) Matcher(typeName, adapterName string) bool {
-	return typeName == "friend_recall" && adapterName == OneBotV11.Name
+func (friendRecall FriendRecall) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (friendRecall FriendRecall) TypeName() string {
+	return "friend_recall"
 }
 
 func (friendRecall FriendRecall) ToRawText(msg message.MessageSegment) string {
@@ -262,13 +294,45 @@ type GroupPoke struct {
 	TargetID int64 `json:"target_id"`
 }
 
-func (groupPoke GroupPoke) Matcher(typeName, adapterName string) bool {
-	return typeName == "poke" && adapterName == OneBotV11.Name
+func (groupPoke GroupPoke) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (groupPoke GroupPoke) TypeName() string {
+	return "group_poke"
 }
 
 func (groupPoke GroupPoke) ToRawText(msg message.MessageSegment) string {
 	result := groupPoke.Deserialize(msg.Data, reflect.TypeOf(groupPoke)).(GroupPoke)
 	return fmt.Sprintf("[OnebotV11:poke,time=%d,self_id=%d,group_id=%d,user_id=%d,target_id=%d]", result.Time, result.SelfID, result.GroupID, result.UserID, result.TargetID)
+}
+
+type FriendPoke struct {
+	message.MessageType
+	Time     int64  `json:"time"`
+	SelfID   int64  `json:"self_id"`
+	PostType string `json:"post_type"`
+	// "notify"
+	NoticeType string `json:"notice_type"`
+	// "poke"
+	SubType string `json:"sub_type"`
+	// Poker ID
+	UserID int64 `json:"user_id"`
+	// Pokee ID
+	TargetID int64 `json:"target_id"`
+}
+
+func (friendPoke FriendPoke) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (friendPoke FriendPoke) TypeName() string {
+	return "friend_poke"
+}
+
+func (friendPoke FriendPoke) ToRawText(msg message.MessageSegment) string {
+	result := friendPoke.Deserialize(msg.Data, reflect.TypeOf(friendPoke)).(FriendPoke)
+	return fmt.Sprintf("[OnebotV11:poke,time=%d,self_id=%d,user_id=%d,target_id=%d]", result.Time, result.SelfID, result.UserID, result.TargetID)
 }
 
 type RedPacketLuckyKing struct {
@@ -288,8 +352,12 @@ type RedPacketLuckyKing struct {
 	TargetID int64 `json:"target_id"`
 }
 
-func (redPacketLuckyKing RedPacketLuckyKing) Matcher(typeName, adapterName string) bool {
-	return typeName == "lucky_king" && adapterName == OneBotV11.Name
+func (redPacketLuckyKing RedPacketLuckyKing) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (redPacketLuckyKing RedPacketLuckyKing) TypeName() string {
+	return "lucky_king"
 }
 
 func (redPacketLuckyKing RedPacketLuckyKing) ToRawText(msg message.MessageSegment) string {
@@ -314,8 +382,12 @@ type GroupHonorChange struct {
 	HonorType string `json:"honor_type"`
 }
 
-func (groupHonorChange GroupHonorChange) Matcher(typeName, adapterName string) bool {
-	return typeName == "honor" && adapterName == OneBotV11.Name
+func (groupHonorChange GroupHonorChange) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (groupHonorChange GroupHonorChange) TypeName() string {
+	return "honor"
 }
 
 func (groupHonorChange GroupHonorChange) ToRawText(msg message.MessageSegment) string {

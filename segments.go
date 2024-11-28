@@ -12,8 +12,12 @@ type FaceType struct {
 	ID string `json:"id"`
 }
 
-func (face FaceType) Matcher(typeName, adapterName string) bool {
-	return typeName == "face" && adapterName == OneBotV11.Name
+func (serializer FaceType) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (serializer FaceType) TypeName() string {
+	return "face"
 }
 
 func (face FaceType) ToRawText(msg message.MessageSegment) string {
@@ -26,8 +30,12 @@ type AtType struct {
 	QQ string `json:"qq"`
 }
 
-func (at AtType) Matcher(typeName, adapterName string) bool {
-	return typeName == "at" && adapterName == OneBotV11.Name
+func (serializer AtType) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (serializer AtType) TypeName() string {
+	return "at"
 }
 
 func (at AtType) ToRawText(msg message.MessageSegment) string {
@@ -39,8 +47,12 @@ type RPSType struct {
 	message.MessageType
 }
 
-func (rsp RPSType) Matcher(typeName, adapterName string) bool {
-	return typeName == "rps" && adapterName == OneBotV11.Name
+func (serializer RPSType) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (serializer RPSType) TypeName() string {
+	return "rps"
 }
 
 func (rsp RPSType) ToRawText(msg message.MessageSegment) string {
@@ -51,8 +63,12 @@ type DiceType struct {
 	message.MessageType
 }
 
-func (dice DiceType) Matcher(typeName, adapterName string) bool {
-	return typeName == "dice" && adapterName == OneBotV11.Name
+func (serializer DiceType) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (serializer DiceType) TypeName() string {
+	return "dice"
 }
 
 func (dice DiceType) ToRawText(msg message.MessageSegment) string {
@@ -63,8 +79,12 @@ type ShakeType struct {
 	message.MessageType
 }
 
-func (shake ShakeType) Matcher(typeName, adapterName string) bool {
-	return typeName == "shake" && adapterName == OneBotV11.Name
+func (serializer ShakeType) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (serializer ShakeType) TypeName() string {
+	return "shake"
 }
 
 func (shake ShakeType) ToRawText(msg message.MessageSegment) string {
@@ -77,8 +97,12 @@ type PokeType struct {
 	Type string `json:"type"`
 }
 
-func (poke PokeType) Matcher(typeName, adapterName string) bool {
-	return typeName == "poke" && adapterName == OneBotV11.Name
+func (serializer PokeType) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (serializer PokeType) TypeName() string {
+	return "poke"
 }
 
 func (poke PokeType) ToRawText(msg message.MessageSegment) string {
@@ -91,8 +115,12 @@ type ShareType struct {
 	Url string `json:"url"`
 }
 
-func (share ShareType) Matcher(typeName, adapterName string) bool {
-	return typeName == "share" && adapterName == OneBotV11.Name
+func (serializer ShareType) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (serializer ShareType) TypeName() string {
+	return "share"
 }
 
 func (share ShareType) ToRawText(msg message.MessageSegment) string {
@@ -107,8 +135,12 @@ type ContactType struct {
 	ID   string `json:"id"`
 }
 
-func (contact ContactType) Matcher(typeName, adapterName string) bool {
-	return typeName == "contact" && adapterName == OneBotV11.Name
+func (serializer ContactType) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (serializer ContactType) TypeName() string {
+	return "contact"
 }
 
 func (contact ContactType) ToRawText(msg message.MessageSegment) string {
@@ -122,8 +154,12 @@ type LocationType struct {
 	Lon string `json:"lon"`
 }
 
-func (location LocationType) Matcher(typeName, adapterName string) bool {
-	return typeName == "location" && adapterName == OneBotV11.Name
+func (serializer LocationType) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (serializer LocationType) TypeName() string {
+	return "location"
 }
 
 func (location LocationType) ToRawText(msg message.MessageSegment) string {
@@ -145,8 +181,12 @@ type MusicType struct {
 	Image   string `json:"image"`
 }
 
-func (music MusicType) Matcher(typeName, adapterName string) bool {
-	return typeName == "music" && adapterName == OneBotV11.Name
+func (serializer MusicType) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (serializer MusicType) TypeName() string {
+	return "music"
 }
 
 func (music MusicType) ToRawText(msg message.MessageSegment) string {
@@ -159,8 +199,12 @@ type ReplyType struct {
 	ID string `json:"id"`
 }
 
-func (reply ReplyType) Matcher(typeName, adapterName string) bool {
-	return typeName == "reply" && adapterName == OneBotV11.Name
+func (serializer ReplyType) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (serializer ReplyType) TypeName() string {
+	return "reply"
 }
 
 func (reply ReplyType) ToRawText(msg message.MessageSegment) string {
@@ -173,8 +217,12 @@ type ForwardType struct {
 	ID string `json:"id"`
 }
 
-func (forward ForwardType) Matcher(typeName, adapterName string) bool {
-	return typeName == "forward" && adapterName == OneBotV11.Name
+func (serializer ForwardType) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (serializer ForwardType) TypeName() string {
+	return "forward"
 }
 
 func (forward ForwardType) ToRawText(msg message.MessageSegment) string {
@@ -193,8 +241,12 @@ type NodeType struct {
 	Content  []message.MessageSegment `json:"content"`
 }
 
-func (NodeType) Matcher(typeName, adapterName string) bool {
-	return typeName == "node" && adapterName == OneBotV11.Name
+func (serializer NodeType) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (serializer NodeType) TypeName() string {
+	return "node"
 }
 
 func (node NodeType) ToRawText(msg message.MessageSegment) string {
@@ -207,8 +259,12 @@ type XMLType struct {
 	Data string `json:"data"`
 }
 
-func (xml XMLType) Matcher(typeName, adapterName string) bool {
-	return typeName == "xml" && adapterName == OneBotV11.Name
+func (serializer XMLType) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (serializer XMLType) TypeName() string {
+	return "xml"
 }
 
 func (xml XMLType) ToRawText(msg message.MessageSegment) string {
@@ -221,8 +277,12 @@ type JSONType struct {
 	Data string `json:"data"`
 }
 
-func (json JSONType) Matcher(typeName, adapterName string) bool {
-	return typeName == "json" && adapterName == OneBotV11.Name
+func (serializer JSONType) AdapterName() string {
+	return OneBotV11.Name
+}
+
+func (serializer JSONType) TypeName() string {
+	return "json"
 }
 
 func (json JSONType) ToRawText(msg message.MessageSegment) string {
