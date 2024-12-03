@@ -339,6 +339,7 @@ func actionHandler() {
 	for {
 		msg := OneBotV11.ActionChannel.Pull()
 		var result ActionPayload
+		log.Println("Received an action!")
 
 		result.Params = msg.Action
 		switch msg.Action.(type) {
