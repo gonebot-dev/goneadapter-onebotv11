@@ -59,16 +59,16 @@ func messageDecoder(rawMsg string) {
 			msgInterface.Type == "file" {
 			useAdapter = ""
 		}
-		if msgInterface.Type == "at" {
-			atID := msgUnit.Data.(AtType).QQ
-			if atID == msg.Self {
-				msg.IsToMe = true
-			}
-		}
 		if useAdapter != "" {
 			msgInterface.Data = ToMessageType(msgInterface.Type, msgUnit.Data)
 		} else {
 			msgInterface.Data = message.ToBuiltIn(msgInterface.Type, msgUnit.Data)
+		}
+		if msgInterface.Type == "at" {
+			atID := msgInterface.Data.(AtType).QQ
+			if atID == msg.Self {
+				msg.IsToMe = true
+			}
 		}
 
 		if msgInterface.Data != nil {
