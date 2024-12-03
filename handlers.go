@@ -60,7 +60,7 @@ func messageDecoder(rawMsg string) {
 			useAdapter = ""
 		}
 		if msgInterface.Type == "at" {
-			atID := msgInterface.Data.(AtType).QQ
+			atID := msgUnit.Data.(AtType).QQ
 			if atID == msg.Self {
 				msg.IsToMe = true
 			}
