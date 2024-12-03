@@ -14,7 +14,7 @@ type SenderObject struct {
 	UserID   int64  `json:"user_id"`
 	Nickname string `json:"nickname"`
 	Sex      string `json:"sex"`
-	Age      int32  `json:"age"`
+	Age      int64  `json:"age"`
 	// If is a group message, SenderObject may also contain the following fields
 	Card  string `json:"card"`
 	Area  string `json:"area"`
@@ -31,11 +31,11 @@ type PrivateMessage struct {
 	MessageType string `json:"message_type"`
 	// "friend", "group" or "other"
 	SubType    string           `json:"sub_type"`
-	MessageID  int32            `json:"message_id"`
+	MessageID  int64            `json:"message_id"`
 	UserID     int64            `json:"user_id"`
 	Message    []PayloadMessage `json:"message"`
 	RawMessage string           `json:"raw_message"`
-	Font       int32            `json:"font"`
+	Font       int64            `json:"font"`
 	Sender     SenderObject     `json:"sender"`
 }
 
@@ -46,12 +46,12 @@ type GroupMessage struct {
 	MessageType string `json:"message_type"`
 	// "normal", "notice" or "active"
 	SubType    string           `json:"sub_type"`
-	MessageID  int32            `json:"message_id"`
+	MessageID  int64            `json:"message_id"`
 	GroupID    int64            `json:"group_id"`
 	UserID     int64            `json:"user_id"`
 	Message    []PayloadMessage `json:"message"`
 	RawMessage string           `json:"raw_message"`
-	Font       int32            `json:"font"`
+	Font       int64            `json:"font"`
 	Sender     SenderObject     `json:"sender"`
 }
 

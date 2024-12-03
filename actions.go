@@ -25,18 +25,18 @@ type SendGroupMessage struct {
 }
 
 type DeleteMessage struct {
-	MessageID int32 `json:"message_id"`
+	MessageID int64 `json:"message_id"`
 }
 
 type GetMessage struct {
-	MessageID int32 `json:"message_id"`
+	MessageID int64 `json:"message_id"`
 }
 
 type GetMessageResult struct {
-	Time        int32            `json:"time"`
+	Time        int64            `json:"time"`
 	MessageType string           `json:"message_type"`
-	MessageID   int32            `json:"message_id"`
-	RealID      int32            `json:"real_id"`
+	MessageID   int64            `json:"message_id"`
+	RealID      int64            `json:"real_id"`
 	Sender      SenderObject     `json:"sender"`
 	Message     []PayloadMessage `json:"message"`
 }
@@ -156,8 +156,8 @@ type GetGroupInfo struct {
 type GetGroupInfoResult struct {
 	GroupID        int64  `json:"group_id"`
 	GroupName      string `json:"group_name"`
-	MemberCount    int32  `json:"member_count"`
-	MaxMemberCount int32  `json:"max_member_count"`
+	MemberCount    int64  `json:"member_count"`
+	MaxMemberCount int64  `json:"max_member_count"`
 }
 
 type GetGroupList struct {
@@ -180,18 +180,18 @@ type GetGroupMemberInfoResult struct {
 	Nickname string `json:"nickname"`
 	Card     string `json:"card"`
 	Sex      string `json:"sex"`
-	Age      int32  `json:"age"`
+	Age      int64  `json:"age"`
 	Area     string `json:"area"`
 	// Group message info
-	JoinTime     int32  `json:"join_time"`
-	LastSentTime int32  `json:"last_sent_time"`
+	JoinTime     int64  `json:"join_time"`
+	LastSentTime int64  `json:"last_sent_time"`
 	Level        string `json:"level"`
 	// Group user info
 	// "owner", "admin" or "member"
 	Role            string `json:"role"`
 	Unfriendly      bool   `json:"unfriendly"`
 	Title           string `json:"title"`
-	TitleExpireTime int32  `json:"title_expire_time"`
+	TitleExpireTime int64  `json:"title_expire_time"`
 	CardChangeable  bool   `json:"card_changeable"`
 }
 
@@ -215,7 +215,7 @@ type GroupTalkativeInfo struct {
 	// Url of the avatar
 	Avatar string `json:"avatar"`
 	// How long it have lasted
-	DayCount int32 `json:"day_count"`
+	DayCount int64 `json:"day_count"`
 }
 
 type GroupHonorInfo struct {
@@ -249,7 +249,7 @@ type GetCsrfToken struct {
 }
 
 type GetCsrfTokenResult struct {
-	CsrfToken int32 `json:"csrf_token"`
+	CsrfToken int64 `json:"csrf_token"`
 }
 
 type GetCredentials struct {
@@ -258,7 +258,7 @@ type GetCredentials struct {
 
 type GetCredentialsResult struct {
 	Cookies   string `json:"cookies"`
-	CsrfToken int32  `json:"csrf_token"`
+	CsrfToken int64  `json:"csrf_token"`
 }
 
 // To use this, you may need to get ffmpeg installed(the app you are using must support this)
@@ -328,7 +328,7 @@ type GetVersionInfoResult struct {
 
 type SetRestart struct {
 	// Milliseconds before restart, if cannot restart normally, try set it to about 2000
-	Delay int32 `json:"delay"`
+	Delay int64 `json:"delay"`
 }
 
 type CleanCache struct {
