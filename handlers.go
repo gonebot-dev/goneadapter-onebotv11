@@ -429,12 +429,10 @@ func actionHandler() {
 			continue
 		}
 
-		if cap(actionResult) > 0 {
+		if len(actionResult) > 0 {
 			<-actionResult
 		}
-		log.Println("Ready to call remote!")
 		err = ws.WriteMessage(websocket.TextMessage, jsonResult)
-		log.Println("Remote called!")
 
 		end := ""
 		if len(jsonResult) > message.LOG_MESSAGE_LEN_THRESHOLD {
