@@ -69,13 +69,7 @@ func messageDecoder(rawMsg string) {
 			msgInterface.Data = msgUnit.Data.(message.MessageType)
 			msgInterface.Data = ToMessageType(msgInterface)
 		} else {
-			if msgInterface.Type == "text" {
-				msgInterface.Data = message.TextType{
-					Text: msgUnit.Data.(string),
-				}
-			} else {
-				msgInterface.Data = msgUnit.Data.(message.MessageType)
-			}
+			msgInterface.Data = msgUnit.Data.(message.MessageType)
 			msgInterface.Data = message.ToBuiltIn(msgInterface)
 		}
 
