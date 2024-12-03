@@ -171,6 +171,9 @@ func noticeDecoder(rawMsg string) {
 
 		msg.IsToMe = noticeInfo.TargetID == noticeInfo.SelfID
 		msg.Group = strconv.FormatInt(noticeInfo.GroupID, 10)
+		if msg.Group == "0" {
+			msg.Group = ""
+		}
 		info = noticeInfo
 
 	case "lucky_king":
