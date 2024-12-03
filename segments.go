@@ -272,38 +272,38 @@ func (json JSONType) ToRawText(msg message.MessageSegment) string {
 }
 
 // Convert message.MessageSegment.Data to message.MessageType
-func ToMessageType(msg message.MessageSegment) message.MessageType {
-	switch msg.Type {
+func ToMessageType(typeName string, msg any) message.MessageType {
+	switch typeName {
 	case "face":
-		return msg.Data.(FaceType)
+		return msg.(FaceType)
 	case "at":
-		return msg.Data.(AtType)
+		return msg.(AtType)
 	case "rps":
-		return msg.Data.(RPSType)
+		return msg.(RPSType)
 	case "dice":
-		return msg.Data.(DiceType)
+		return msg.(DiceType)
 	case "shake":
-		return msg.Data.(ShakeType)
+		return msg.(ShakeType)
 	case "poke":
-		return msg.Data.(PokeType)
+		return msg.(PokeType)
 	case "share":
-		return msg.Data.(ShareType)
+		return msg.(ShareType)
 	case "contact":
-		return msg.Data.(ContactType)
+		return msg.(ContactType)
 	case "location":
-		return msg.Data.(LocationType)
+		return msg.(LocationType)
 	case "music":
-		return msg.Data.(MusicType)
+		return msg.(MusicType)
 	case "reply":
-		return msg.Data.(ReplyType)
+		return msg.(ReplyType)
 	case "forward":
-		return msg.Data.(ForwardType)
+		return msg.(ForwardType)
 	case "node":
-		return msg.Data.(NodeType)
+		return msg.(NodeType)
 	case "xml":
-		return msg.Data.(XMLType)
+		return msg.(XMLType)
 	case "json":
-		return msg.Data.(JSONType)
+		return msg.(JSONType)
 	default:
 		return nil
 	}

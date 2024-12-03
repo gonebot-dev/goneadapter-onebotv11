@@ -66,11 +66,9 @@ func messageDecoder(rawMsg string) {
 			}
 		}
 		if useAdapter != "" {
-			msgInterface.Data = msgUnit.Data.(message.MessageType)
-			msgInterface.Data = ToMessageType(msgInterface)
+			msgInterface.Data = ToMessageType(msgInterface.Type, msgUnit.Data)
 		} else {
-			msgInterface.Data = msgUnit.Data.(message.MessageType)
-			msgInterface.Data = message.ToBuiltIn(msgInterface)
+			msgInterface.Data = message.ToBuiltIn(msgInterface.Type, msgUnit.Data)
 		}
 
 		if msgInterface.Data != nil {
