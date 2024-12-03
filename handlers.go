@@ -339,7 +339,6 @@ func actionHandler() {
 	for {
 		msg := OneBotV11.ActionChannel.Pull()
 		var result ActionPayload
-		log.Println("Received an action!")
 
 		result.Params = msg.Action
 		switch msg.Action.(type) {
@@ -433,7 +432,9 @@ func actionHandler() {
 		if cap(actionResult) > 0 {
 			<-actionResult
 		}
+		log.Println("Ready to call remote!")
 		err = ws.WriteMessage(websocket.TextMessage, jsonResult)
+		log.Println("Remote called!")
 
 		end := ""
 		if len(jsonResult) > message.LOG_MESSAGE_LEN_THRESHOLD {
