@@ -412,19 +412,19 @@ func actionHandler() {
 			result.Action = "clean_cache"
 		default:
 			log.Printf("[ONEBOTV11] | actionHandler: Unknown action %#v\n", msg.Action)
-			msg.ResultChannel <- nil
+			(*msg.ResultChannel) <- nil
 			continue
 		}
 
 		if msg.AdapterName != OneBotV11.Name {
-			msg.ResultChannel <- nil
+			(*msg.ResultChannel) <- nil
 			log.Printf("[ONEBOTV11] | actionHandler: Ignore action for %s\n", msg.AdapterName)
 			continue
 		}
 
 		jsonResult, err := json.Marshal(result)
 		if err != nil {
-			msg.ResultChannel <- nil
+			(*msg.ResultChannel) <- nil
 			log.Printf("[ONEBOTV11] | actionHandler: Unable to marshal action %#v\n", result)
 			continue
 		}
@@ -440,13 +440,13 @@ func actionHandler() {
 			end = "..."
 		}
 		if err != nil {
-			msg.ResultChannel <- nil
+			(*msg.ResultChannel) <- nil
 			log.Printf("[ONEBOTV11] | actionHandler: Unable to send action %s%s...\n", jsonResult, end)
 			continue
 		}
 		log.Printf("[ONEBOTV11] | actionHandler: Send action %s%s\n", jsonResult, end)
 		reply := <-actionResult
 		log.Printf("[ONEBOTV11] | actionHandler: Action %s%s received a result!%#v\n", jsonResult, end, reply)
-		msg.ResultChannel <- reply
+		(*msg.ResultChannel) <- reply
 	}
 }
