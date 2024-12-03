@@ -1,6 +1,7 @@
 package onebotv11
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/gonebot-dev/gonebot/message"
@@ -273,37 +274,68 @@ func (json JSONType) ToRawText(msg message.MessageSegment) string {
 
 // Convert message.MessageSegment.Data to message.MessageType
 func ToMessageType(typeName string, msg any) message.MessageType {
+	tmp, _ := json.Marshal(msg)
 	switch typeName {
 	case "face":
-		return msg.(FaceType)
+		var result FaceType
+		_ = json.Unmarshal(tmp, &result)
+		return result
 	case "at":
-		return msg.(AtType)
+		var result AtType
+		_ = json.Unmarshal(tmp, &result)
+		return result
 	case "rps":
-		return msg.(RPSType)
+		var result RPSType
+		_ = json.Unmarshal(tmp, &result)
+		return result
 	case "dice":
-		return msg.(DiceType)
+		var result DiceType
+		_ = json.Unmarshal(tmp, &result)
+		return result
 	case "shake":
-		return msg.(ShakeType)
+		var result ShakeType
+		_ = json.Unmarshal(tmp, &result)
+		return result
 	case "poke":
-		return msg.(PokeType)
+		var result PokeType
+		_ = json.Unmarshal(tmp, &result)
+		return result
 	case "share":
-		return msg.(ShareType)
+		var result ShareType
+		_ = json.Unmarshal(tmp, &result)
+		return result
 	case "contact":
-		return msg.(ContactType)
+		var result ContactType
+		_ = json.Unmarshal(tmp, &result)
+		return result
 	case "location":
-		return msg.(LocationType)
+		var result LocationType
+		_ = json.Unmarshal(tmp, &result)
+		return result
 	case "music":
-		return msg.(MusicType)
+		var result MusicType
+		_ = json.Unmarshal(tmp, &result)
+		return result
 	case "reply":
-		return msg.(ReplyType)
+		var result ReplyType
+		_ = json.Unmarshal(tmp, &result)
+		return result
 	case "forward":
-		return msg.(ForwardType)
+		var result ForwardType
+		_ = json.Unmarshal(tmp, &result)
+		return result
 	case "node":
-		return msg.(NodeType)
+		var result NodeType
+		_ = json.Unmarshal(tmp, &result)
+		return result
 	case "xml":
-		return msg.(XMLType)
+		var result XMLType
+		_ = json.Unmarshal(tmp, &result)
+		return result
 	case "json":
-		return msg.(JSONType)
+		var result JSONType
+		_ = json.Unmarshal(tmp, &result)
+		return result
 	default:
 		return nil
 	}
