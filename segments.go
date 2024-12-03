@@ -270,3 +270,41 @@ func (json JSONType) ToRawText(msg message.MessageSegment) string {
 	result := msg.Data.(JSONType)
 	return fmt.Sprintf("[OnebotV11:json,data=%s]", result.Data)
 }
+
+// Convert message.MessageSegment.Data to message.MessageType
+func ToMessageType(msg message.MessageSegment) message.MessageType {
+	switch msg.Type {
+	case "face":
+		return msg.Data.(FaceType)
+	case "at":
+		return msg.Data.(AtType)
+	case "rps":
+		return msg.Data.(RPSType)
+	case "dice":
+		return msg.Data.(DiceType)
+	case "shake":
+		return msg.Data.(ShakeType)
+	case "poke":
+		return msg.Data.(PokeType)
+	case "share":
+		return msg.Data.(ShareType)
+	case "contact":
+		return msg.Data.(ContactType)
+	case "location":
+		return msg.Data.(LocationType)
+	case "music":
+		return msg.Data.(MusicType)
+	case "reply":
+		return msg.Data.(ReplyType)
+	case "forward":
+		return msg.Data.(ForwardType)
+	case "node":
+		return msg.Data.(NodeType)
+	case "xml":
+		return msg.Data.(XMLType)
+	case "json":
+		return msg.Data.(JSONType)
+	default:
+		return nil
+	}
+}

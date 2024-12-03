@@ -63,11 +63,18 @@ func messageDecoder(rawMsg string) {
 				msg.IsToMe = true
 			}
 		}
-		msg.AttachSegment(message.MessageSegment{
-			Type:    msgInterface.Type,
-			Adapter: useAdapter,
-			Data:    msgInterface.Data,
-		})
+		if useAdapter != "" {
+			msgInterface.Data = ToMessageType(msgInterface)
+		} else {
+			msgInterface.Data = message.ToBuiltIn(msgInterface)
+		}
+
+		if msgInterface.Data != nil {
+			msg.AttachSegment(message.MessageSegment{
+				Type: msgInterface.Type,
+				Data: msgInterface.Data,
+			})
+		}
 	}
 	OneBotV11.ReceiveChannel.Push(msg, true)
 
@@ -195,9 +202,8 @@ func noticeDecoder(rawMsg string) {
 	}
 
 	msg.AttachSegment(message.MessageSegment{
-		Type:    notice,
-		Adapter: OneBotV11.Name,
-		Data:    info,
+		Type: notice,
+		Data: info,
 	})
 	OneBotV11.ReceiveChannel.Push(msg, true)
 

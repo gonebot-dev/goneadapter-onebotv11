@@ -1,5 +1,5 @@
-github.com/gonebot-dev/gonebot v1.0.3-0.20241203033943-ddfb689fe6ed h1:D0AYDpKnnVOq+NXeydEeuSR7KeXjuRUMV0nzDlHkeP4=
-github.com/gonebot-dev/gonebot v1.0.3-0.20241203033943-ddfb689fe6ed/go.mod h1:jmldmxEIHnVLfS0pXyw8DVhtMJPeg3PBP/92BDbkviY=
+github.com/gonebot-dev/gonebot v1.0.3-0.20241203051150-1b23369a1ff1 h1:Gb+DaOETrJIioF0nFasVTf1kFqiFkbcrJbR1XHefT9A=
+github.com/gonebot-dev/gonebot v1.0.3-0.20241203051150-1b23369a1ff1/go.mod h1:jmldmxEIHnVLfS0pXyw8DVhtMJPeg3PBP/92BDbkviY=
 github.com/gorilla/websocket v1.5.3 h1:saDtZ6Pbx/0u+bgYQ3q96pZgCzfhKXGPqt7kZ72aNNg=
 github.com/gorilla/websocket v1.5.3/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
 github.com/tidwall/gjson v1.18.0 h1:FIDeeyB800efLX89e5a8Y0BNH+LOngJyGrIWxG2FKQY=
