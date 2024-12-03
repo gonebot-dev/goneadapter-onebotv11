@@ -2,7 +2,6 @@ package onebotv11
 
 import (
 	"fmt"
-	"reflect"
 
 	"github.com/gonebot-dev/gonebot/message"
 )
@@ -30,13 +29,13 @@ type PrivateMessage struct {
 	PostType    string `json:"post_type"`
 	MessageType string `json:"message_type"`
 	// "friend", "group" or "other"
-	SubType    string           `json:"sub_type"`
-	MessageID  int64            `json:"message_id"`
-	UserID     int64            `json:"user_id"`
-	Message    []PayloadMessage `json:"message"`
-	RawMessage string           `json:"raw_message"`
-	Font       int64            `json:"font"`
-	Sender     SenderObject     `json:"sender"`
+	SubType    string                   `json:"sub_type"`
+	MessageID  int64                    `json:"message_id"`
+	UserID     int64                    `json:"user_id"`
+	Message    []message.MessageSegment `json:"message"`
+	RawMessage string                   `json:"raw_message"`
+	Font       int64                    `json:"font"`
+	Sender     SenderObject             `json:"sender"`
 }
 
 type GroupMessage struct {
@@ -45,14 +44,14 @@ type GroupMessage struct {
 	PostType    string `json:"post_type"`
 	MessageType string `json:"message_type"`
 	// "normal", "notice" or "active"
-	SubType    string           `json:"sub_type"`
-	MessageID  int64            `json:"message_id"`
-	GroupID    int64            `json:"group_id"`
-	UserID     int64            `json:"user_id"`
-	Message    []PayloadMessage `json:"message"`
-	RawMessage string           `json:"raw_message"`
-	Font       int64            `json:"font"`
-	Sender     SenderObject     `json:"sender"`
+	SubType    string                   `json:"sub_type"`
+	MessageID  int64                    `json:"message_id"`
+	GroupID    int64                    `json:"group_id"`
+	UserID     int64                    `json:"user_id"`
+	Message    []message.MessageSegment `json:"message"`
+	RawMessage string                   `json:"raw_message"`
+	Font       int64                    `json:"font"`
+	Sender     SenderObject             `json:"sender"`
 }
 
 // Notice event, post type will always be "notice"
@@ -86,12 +85,11 @@ func (fileUpload GroupFileUpload) TypeName() string {
 }
 
 func (fileUpload GroupFileUpload) ToRawText(msg message.MessageSegment) string {
-	result := fileUpload.Deserialize(msg.Data, reflect.TypeOf(fileUpload)).(GroupFileUpload)
+	result := msg.Data.(GroupFileUpload)
 	return fmt.Sprintf("[OnebotV11:group_upload,time=%d,self_id=%d,group_id=%d,user_id=%d]", result.Time, result.SelfID, result.GroupID, result.UserID)
 }
 
 type AdminChange struct {
-	message.MessageType
 	Time     int64  `json:"time"`
 	SelfID   int64  `json:"self_id"`
 	PostType string `json:"post_type"`
@@ -113,12 +111,11 @@ func (adminChange AdminChange) TypeName() string {
 }
 
 func (adminChanage AdminChange) ToRawText(msg message.MessageSegment) string {
-	result := adminChanage.Deserialize(msg.Data, reflect.TypeOf(adminChanage)).(AdminChange)
+	result := msg.Data.(AdminChange)
 	return fmt.Sprintf("[OnebotV11:group_admin,time=%d,self_id=%d,group_id=%d,user_id=%d]", result.Time, result.SelfID, result.GroupID, result.UserID)
 }
 
 type GroupMemberDecrease struct {
-	message.MessageType
 	Time     int64  `json:"time"`
 	SelfID   int64  `json:"self_id"`
 	PostType string `json:"post_type"`
@@ -141,12 +138,11 @@ func (groupMemberDecrease GroupMemberDecrease) TypeName() string {
 }
 
 func (groupMemberDecrease GroupMemberDecrease) ToRawText(msg message.MessageSegment) string {
-	result := groupMemberDecrease.Deserialize(msg.Data, reflect.TypeOf(groupMemberDecrease)).(GroupMemberDecrease)
+	result := msg.Data.(GroupMemberDecrease)
 	return fmt.Sprintf("[OnebotV11:group_decrease,time=%d,self_id=%d,group_id=%d,user_id=%d]", result.Time, result.SelfID, result.GroupID, result.UserID)
 }
 
 type GroupMemberIncrease struct {
-	message.MessageType
 	Time     int64  `json:"time"`
 	SelfID   int64  `json:"self_id"`
 	PostType string `json:"post_type"`
@@ -169,12 +165,11 @@ func (groupMemberIncrease GroupMemberIncrease) TypeName() string {
 }
 
 func (groupMemberIncrease GroupMemberIncrease) ToRawText(msg message.MessageSegment) string {
-	result := groupMemberIncrease.Deserialize(msg.Data, reflect.TypeOf(groupMemberIncrease)).(GroupMemberIncrease)
+	result := msg.Data.(GroupMemberIncrease)
 	return fmt.Sprintf("[OnebotV11:group_increase,time=%d,self_id=%d,group_id=%d,user_id=%d]", result.Time, result.SelfID, result.GroupID, result.UserID)
 }
 
 type GroupBan struct {
-	message.MessageType
 	Time     int64  `json:"time"`
 	SelfID   int64  `json:"self_id"`
 	PostType string `json:"post_type"`
@@ -198,12 +193,11 @@ func (groupBan GroupBan) TypeName() string {
 }
 
 func (groupBan GroupBan) ToRawText(msg message.MessageSegment) string {
-	result := groupBan.Deserialize(msg.Data, reflect.TypeOf(groupBan)).(GroupBan)
+	result := msg.Data.(GroupBan)
 	return fmt.Sprintf("[OnebotV11:group_ban,time=%d,self_id=%d,group_id=%d,user_id=%d]", result.Time, result.SelfID, result.GroupID, result.UserID)
 }
 
 type FriendAdd struct {
-	message.MessageType
 	Time     int64  `json:"time"`
 	SelfID   int64  `json:"self_id"`
 	PostType string `json:"post_type"`
@@ -221,12 +215,11 @@ func (friendAdd FriendAdd) TypeName() string {
 }
 
 func (friendAdd FriendAdd) ToRawText(msg message.MessageSegment) string {
-	result := friendAdd.Deserialize(msg.Data, reflect.TypeOf(friendAdd)).(FriendAdd)
+	result := msg.Data.(FriendAdd)
 	return fmt.Sprintf("[OnebotV11:friend_add,time=%d,self_id=%d,user_id=%d]", result.Time, result.SelfID, result.UserID)
 }
 
 type GroupRecall struct {
-	message.MessageType
 	Time     int64  `json:"time"`
 	SelfID   int64  `json:"self_id"`
 	PostType string `json:"post_type"`
@@ -249,12 +242,11 @@ func (groupRecall GroupRecall) TypeName() string {
 }
 
 func (groupRecall GroupRecall) ToRawText(msg message.MessageSegment) string {
-	result := groupRecall.Deserialize(msg.Data, reflect.TypeOf(groupRecall)).(GroupRecall)
+	result := msg.Data.(GroupRecall)
 	return fmt.Sprintf("[OnebotV11:group_recall,time=%d,self_id=%d,group_id=%d,user_id=%d,message_id=%d]", result.Time, result.SelfID, result.GroupID, result.UserID, result.MessageID)
 }
 
 type FriendRecall struct {
-	message.MessageType
 	Time     int64  `json:"time"`
 	SelfID   int64  `json:"self_id"`
 	PostType string `json:"post_type"`
@@ -274,12 +266,11 @@ func (friendRecall FriendRecall) TypeName() string {
 }
 
 func (friendRecall FriendRecall) ToRawText(msg message.MessageSegment) string {
-	result := friendRecall.Deserialize(msg.Data, reflect.TypeOf(friendRecall)).(FriendRecall)
+	result := msg.Data.(FriendRecall)
 	return fmt.Sprintf("[OnebotV11:friend_recall,time=%d,self_id=%d,user_id=%d,message_id=%d]", result.Time, result.SelfID, result.UserID, result.MessageID)
 }
 
 type GroupPoke struct {
-	message.MessageType
 	Time     int64  `json:"time"`
 	SelfID   int64  `json:"self_id"`
 	PostType string `json:"post_type"`
@@ -303,12 +294,11 @@ func (groupPoke GroupPoke) TypeName() string {
 }
 
 func (groupPoke GroupPoke) ToRawText(msg message.MessageSegment) string {
-	result := groupPoke.Deserialize(msg.Data, reflect.TypeOf(groupPoke)).(GroupPoke)
+	result := msg.Data.(GroupPoke)
 	return fmt.Sprintf("[OnebotV11:poke,time=%d,self_id=%d,group_id=%d,user_id=%d,target_id=%d]", result.Time, result.SelfID, result.GroupID, result.UserID, result.TargetID)
 }
 
 type FriendPoke struct {
-	message.MessageType
 	Time     int64  `json:"time"`
 	SelfID   int64  `json:"self_id"`
 	PostType string `json:"post_type"`
@@ -331,12 +321,11 @@ func (friendPoke FriendPoke) TypeName() string {
 }
 
 func (friendPoke FriendPoke) ToRawText(msg message.MessageSegment) string {
-	result := friendPoke.Deserialize(msg.Data, reflect.TypeOf(friendPoke)).(FriendPoke)
+	result := msg.Data.(FriendPoke)
 	return fmt.Sprintf("[OnebotV11:poke,time=%d,self_id=%d,user_id=%d,target_id=%d]", result.Time, result.SelfID, result.UserID, result.TargetID)
 }
 
 type RedPacketLuckyKing struct {
-	message.MessageType
 	Time     int64  `json:"time"`
 	SelfID   int64  `json:"self_id"`
 	PostType string `json:"post_type"`
@@ -361,12 +350,11 @@ func (redPacketLuckyKing RedPacketLuckyKing) TypeName() string {
 }
 
 func (redPacketLuckyKing RedPacketLuckyKing) ToRawText(msg message.MessageSegment) string {
-	result := redPacketLuckyKing.Deserialize(msg.Data, reflect.TypeOf(redPacketLuckyKing)).(RedPacketLuckyKing)
+	result := msg.Data.(RedPacketLuckyKing)
 	return fmt.Sprintf("[OnebotV11:lucky_king,time=%d,self_id=%d,group_id=%d,user_id=%d,target_id=%d]", result.Time, result.SelfID, result.GroupID, result.UserID, result.TargetID)
 }
 
 type GroupHonorChange struct {
-	message.MessageType
 	Time     int64  `json:"time"`
 	SelfID   int64  `json:"self_id"`
 	PostType string `json:"post_type"`
@@ -391,7 +379,7 @@ func (groupHonorChange GroupHonorChange) TypeName() string {
 }
 
 func (groupHonorChange GroupHonorChange) ToRawText(msg message.MessageSegment) string {
-	result := groupHonorChange.Deserialize(msg.Data, reflect.TypeOf(groupHonorChange)).(GroupHonorChange)
+	result := msg.Data.(GroupHonorChange)
 	return fmt.Sprintf("[OnebotV11:honor,time=%d,self_id=%d,group_id=%d,user_id=%d,honor_type=%s]", result.Time, result.SelfID, result.GroupID, result.UserID, result.HonorType)
 }
 

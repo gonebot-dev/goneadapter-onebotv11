@@ -2,7 +2,6 @@ package onebotv11
 
 import (
 	"github.com/gonebot-dev/gonebot/adapter"
-	"github.com/gonebot-dev/gonebot/message"
 	"github.com/gorilla/websocket"
 )
 
@@ -28,35 +27,4 @@ func init() {
 	OneBotV11.Finalize = finalize
 	ws = nil
 	actionResult = make(chan any, 1)
-
-	// Register serializers
-	// Message serializers
-	message.RegisterSerializer(FaceType{})
-	message.RegisterSerializer(AtType{})
-	message.RegisterSerializer(RPSType{})
-	message.RegisterSerializer(DiceType{})
-	message.RegisterSerializer(ShakeType{})
-	message.RegisterSerializer(PokeType{})
-	message.RegisterSerializer(ShareType{})
-	message.RegisterSerializer(ContactType{})
-	message.RegisterSerializer(LocationType{})
-	message.RegisterSerializer(MusicType{})
-	message.RegisterSerializer(ReplyType{})
-	message.RegisterSerializer(ForwardType{})
-	message.RegisterSerializer(NodeType{})
-	message.RegisterSerializer(XMLType{})
-	message.RegisterSerializer(JSONType{})
-	// Notice serializers
-	message.RegisterSerializer(GroupFileUpload{})
-	message.RegisterSerializer(AdminChange{})
-	message.RegisterSerializer(GroupMemberDecrease{})
-	message.RegisterSerializer(GroupMemberIncrease{})
-	message.RegisterSerializer(GroupBan{})
-	message.RegisterSerializer(FriendAdd{})
-	message.RegisterSerializer(GroupRecall{})
-	message.RegisterSerializer(FriendRecall{})
-	message.RegisterSerializer(GroupPoke{})
-	message.RegisterSerializer(FriendPoke{})
-	message.RegisterSerializer(RedPacketLuckyKing{})
-	message.RegisterSerializer(GroupHonorChange{})
 }

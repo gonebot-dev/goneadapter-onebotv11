@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"log"
-	"reflect"
 	"regexp"
 	"strconv"
 	"strings"
@@ -22,7 +21,7 @@ func messageDecoder(rawMsg string) {
 	messageType := gjson.Get(rawMsg, "message_type")
 
 	var msg message.Message
-	var msgData []PayloadMessage
+	var msgData []message.MessageSegment
 
 	msg.Self = gjson.Get(rawMsg, "self_id").String()
 	msg.Sender = gjson.Get(rawMsg, "user_id").String()
@@ -58,12 +57,8 @@ func messageDecoder(rawMsg string) {
 			msgInterface.Type == "file" {
 			useAdapter = ""
 		}
-		serializer := message.GetSerializer(msgInterface.Type, useAdapter)
-		if serializer == nil {
-			continue
-		}
 		if msgInterface.Type == "at" {
-			atID := msgInterface.Data.(map[string]any)["qq"].(string)
+			atID := msgInterface.Data.(AtType).QQ
 			if atID == msg.Self {
 				msg.IsToMe = true
 			}
@@ -71,8 +66,8 @@ func messageDecoder(rawMsg string) {
 		msg.AttachSegment(message.MessageSegment{
 			Type:    msgInterface.Type,
 			Adapter: useAdapter,
-			Data:    serializer.Serialize(msgInterface.Data.(map[string]any), reflect.TypeOf(serializer)),
-		}, serializer)
+			Data:    msgInterface.Data,
+		})
 	}
 	OneBotV11.ReceiveChannel.Push(msg, true)
 
@@ -96,6 +91,8 @@ func noticeDecoder(rawMsg string) {
 	msg.Self = gjson.Get(rawMsg, "self_id").String()
 	msg.Sender = gjson.Get(rawMsg, "user_id").String()
 
+	var info message.MessageType
+
 	switch noticeType.String() {
 	case "group_upload":
 		var noticeInfo GroupFileUpload
@@ -103,6 +100,7 @@ func noticeDecoder(rawMsg string) {
 
 		msg.IsToMe = false
 		msg.Group = strconv.FormatInt(noticeInfo.GroupID, 10)
+		info = noticeInfo
 
 	case "group_admin":
 		var noticeInfo AdminChange
@@ -110,6 +108,7 @@ func noticeDecoder(rawMsg string) {
 
 		msg.IsToMe = noticeInfo.UserID == noticeInfo.SelfID
 		msg.Group = strconv.FormatInt(noticeInfo.GroupID, 10)
+		info = noticeInfo
 
 	case "group_decrease":
 		var noticeInfo GroupMemberDecrease
@@ -117,6 +116,7 @@ func noticeDecoder(rawMsg string) {
 
 		msg.IsToMe = false
 		msg.Group = strconv.FormatInt(noticeInfo.GroupID, 10)
+		info = noticeInfo
 
 	case "group_increase":
 		var noticeInfo GroupMemberIncrease
@@ -124,6 +124,7 @@ func noticeDecoder(rawMsg string) {
 
 		msg.IsToMe = false
 		msg.Group = strconv.FormatInt(noticeInfo.GroupID, 10)
+		info = noticeInfo
 
 	case "group_ban":
 		var noticeInfo GroupBan
@@ -131,12 +132,14 @@ func noticeDecoder(rawMsg string) {
 
 		msg.IsToMe = noticeInfo.UserID == noticeInfo.SelfID
 		msg.Group = strconv.FormatInt(noticeInfo.GroupID, 10)
+		info = noticeInfo
 
 	case "friend_add":
 		var noticeInfo FriendAdd
 		_ = json.Unmarshal([]byte(rawMsg), &noticeInfo)
 
 		msg.IsToMe = true
+		info = noticeInfo
 
 	case "group_recall":
 		var noticeInfo GroupRecall
@@ -144,12 +147,14 @@ func noticeDecoder(rawMsg string) {
 
 		msg.IsToMe = false
 		msg.Group = strconv.FormatInt(noticeInfo.GroupID, 10)
+		info = noticeInfo
 
 	case "friend_recall":
 		var noticeInfo FriendRecall
 		_ = json.Unmarshal([]byte(rawMsg), &noticeInfo)
 
 		msg.IsToMe = true
+		info = noticeInfo
 
 	case "poke":
 		var noticeInfo GroupPoke
@@ -157,9 +162,7 @@ func noticeDecoder(rawMsg string) {
 
 		msg.IsToMe = noticeInfo.TargetID == noticeInfo.SelfID
 		msg.Group = strconv.FormatInt(noticeInfo.GroupID, 10)
-		if msg.Group == "0" {
-			msg.Group = ""
-		}
+		info = noticeInfo
 
 	case "lucky_king":
 		var noticeInfo RedPacketLuckyKing
@@ -167,6 +170,7 @@ func noticeDecoder(rawMsg string) {
 
 		msg.IsToMe = false
 		msg.Group = strconv.FormatInt(noticeInfo.GroupID, 10)
+		info = noticeInfo
 
 	case "honor":
 		var noticeInfo GroupHonorChange
@@ -174,6 +178,7 @@ func noticeDecoder(rawMsg string) {
 
 		msg.IsToMe = noticeInfo.UserID == noticeInfo.SelfID
 		msg.Group = strconv.FormatInt(noticeInfo.GroupID, 10)
+		info = noticeInfo
 
 	default:
 		log.Printf("[ONEBOTV11] | receiveHandler: Unsupported notice type %s\n", noticeType.String())
@@ -188,12 +193,12 @@ func noticeDecoder(rawMsg string) {
 			notice = "group_poke"
 		}
 	}
-	serializer := message.GetSerializer(notice, OneBotV11.Name)
+
 	msg.AttachSegment(message.MessageSegment{
 		Type:    notice,
 		Adapter: OneBotV11.Name,
-		Data:    rawMsg,
-	}, serializer)
+		Data:    info,
+	})
 	OneBotV11.ReceiveChannel.Push(msg, true)
 
 	end := ""
@@ -261,22 +266,6 @@ func receiveHandler() {
 	}
 }
 
-func parseMessage(msg message.Message) (result []PayloadMessage) {
-	result = make([]PayloadMessage, 0)
-	for _, segment := range msg.GetSegments() {
-		serializer := message.GetSerializer(segment.Type, segment.Adapter)
-		if serializer == nil {
-			log.Printf("[ONEBOTV11] | parseMessage: Unable to find serializer for %s\n", segment.Type)
-			continue
-		}
-		result = append(result, PayloadMessage{
-			Type: segment.Type,
-			Data: serializer.Deserialize(segment.Data, reflect.TypeOf(serializer)),
-		})
-	}
-	return
-}
-
 func sendHandler() {
 	for {
 		msg := OneBotV11.SendChannel.Pull()
@@ -291,7 +280,7 @@ func sendHandler() {
 			result.Action = "send_private_msg"
 			result.Params = SendPrivateMessage{
 				UserID:     user,
-				Message:    parseMessage(msg),
+				Message:    msg.GetSegments(),
 				AutoEscape: false,
 			}
 		} else {
@@ -304,7 +293,7 @@ func sendHandler() {
 			result.Action = "send_group_msg"
 			result.Params = SendGroupMessage{
 				GroupID:    group,
-				Message:    parseMessage(msg),
+				Message:    msg.GetSegments(),
 				AutoEscape: false,
 			}
 		}

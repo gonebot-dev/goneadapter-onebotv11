@@ -1,25 +1,22 @@
 package onebotv11
 
+import "github.com/gonebot-dev/gonebot/message"
+
 type ActionPayload struct {
 	Action string `json:"action"`
 	Params any    `json:"params"`
 }
 
-type PayloadMessage struct {
-	Type string `json:"type"`
-	Data any    `json:"data"`
-}
-
 type SendPrivateMessage struct {
-	UserID  int64            `json:"user_id"`
-	Message []PayloadMessage `json:"message"`
+	UserID  int64                    `json:"user_id"`
+	Message []message.MessageSegment `json:"message"`
 	// True if message is string, false otherwise
 	AutoEscape bool `json:"auto_escape"`
 }
 
 type SendGroupMessage struct {
-	GroupID int64            `json:"group_id"`
-	Message []PayloadMessage `json:"message"`
+	GroupID int64                    `json:"group_id"`
+	Message []message.MessageSegment `json:"message"`
 	// True if message is string, false otherwise
 	AutoEscape bool `json:"auto_escape"`
 }
@@ -33,12 +30,12 @@ type GetMessage struct {
 }
 
 type GetMessageResult struct {
-	Time        int64            `json:"time"`
-	MessageType string           `json:"message_type"`
-	MessageID   int64            `json:"message_id"`
-	RealID      int64            `json:"real_id"`
-	Sender      SenderObject     `json:"sender"`
-	Message     []PayloadMessage `json:"message"`
+	Time        int64                    `json:"time"`
+	MessageType string                   `json:"message_type"`
+	MessageID   int64                    `json:"message_id"`
+	RealID      int64                    `json:"real_id"`
+	Sender      SenderObject             `json:"sender"`
+	Message     []message.MessageSegment `json:"message"`
 }
 
 type GetForwardMessage struct {
@@ -46,7 +43,7 @@ type GetForwardMessage struct {
 }
 
 type GetForwardMessageResult struct {
-	Message []PayloadMessage `json:"Message"`
+	Message []message.MessageSegment `json:"Message"`
 }
 
 type SendLike struct {

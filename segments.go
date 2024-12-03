@@ -2,13 +2,11 @@ package onebotv11
 
 import (
 	"fmt"
-	"reflect"
 
 	"github.com/gonebot-dev/gonebot/message"
 )
 
 type FaceType struct {
-	message.MessageType
 	ID string `json:"id"`
 }
 
@@ -21,12 +19,11 @@ func (serializer FaceType) TypeName() string {
 }
 
 func (face FaceType) ToRawText(msg message.MessageSegment) string {
-	result := face.Deserialize(msg.Data, reflect.TypeOf(face)).(FaceType)
+	result := msg.Data.(FaceType)
 	return fmt.Sprintf("[OnebotV11:face,id=%s]", result.ID)
 }
 
 type AtType struct {
-	message.MessageType
 	QQ string `json:"qq"`
 }
 
@@ -39,13 +36,11 @@ func (serializer AtType) TypeName() string {
 }
 
 func (at AtType) ToRawText(msg message.MessageSegment) string {
-	result := at.Deserialize(msg.Data, reflect.TypeOf(at)).(AtType)
+	result := msg.Data.(AtType)
 	return fmt.Sprintf("[OnebotV11:at,qq=%s]", result.QQ)
 }
 
-type RPSType struct {
-	message.MessageType
-}
+type RPSType struct{}
 
 func (serializer RPSType) AdapterName() string {
 	return OneBotV11.Name
@@ -59,9 +54,7 @@ func (rsp RPSType) ToRawText(msg message.MessageSegment) string {
 	return "[OnebotV11:rps]"
 }
 
-type DiceType struct {
-	message.MessageType
-}
+type DiceType struct{}
 
 func (serializer DiceType) AdapterName() string {
 	return OneBotV11.Name
@@ -75,9 +68,7 @@ func (dice DiceType) ToRawText(msg message.MessageSegment) string {
 	return "[OnebotV11:dice]"
 }
 
-type ShakeType struct {
-	message.MessageType
-}
+type ShakeType struct{}
 
 func (serializer ShakeType) AdapterName() string {
 	return OneBotV11.Name
@@ -92,7 +83,6 @@ func (shake ShakeType) ToRawText(msg message.MessageSegment) string {
 }
 
 type PokeType struct {
-	message.MessageType
 	ID   string `json:"id"`
 	Type string `json:"type"`
 }
@@ -106,12 +96,11 @@ func (serializer PokeType) TypeName() string {
 }
 
 func (poke PokeType) ToRawText(msg message.MessageSegment) string {
-	result := poke.Deserialize(msg.Data, reflect.TypeOf(poke)).(PokeType)
+	result := msg.Data.(PokeType)
 	return fmt.Sprintf("[OnebotV11:poke,qq=%s,type=%s]", result.ID, result.Type)
 }
 
 type ShareType struct {
-	message.MessageType
 	Url string `json:"url"`
 }
 
@@ -124,12 +113,11 @@ func (serializer ShareType) TypeName() string {
 }
 
 func (share ShareType) ToRawText(msg message.MessageSegment) string {
-	result := share.Deserialize(msg.Data, reflect.TypeOf(share)).(ShareType)
+	result := msg.Data.(ShareType)
 	return fmt.Sprintf("[OnebotV11:share,url=%s]", result.Url)
 }
 
 type ContactType struct {
-	message.MessageType
 	// "qq" or "group"
 	Type string `json:"type"`
 	ID   string `json:"id"`
@@ -144,12 +132,11 @@ func (serializer ContactType) TypeName() string {
 }
 
 func (contact ContactType) ToRawText(msg message.MessageSegment) string {
-	result := contact.Deserialize(msg.Data, reflect.TypeOf(contact)).(ContactType)
+	result := msg.Data.(ContactType)
 	return fmt.Sprintf("[OnebotV11:contact,type=%s,id=%s]", result.Type, result.ID)
 }
 
 type LocationType struct {
-	message.MessageType
 	Lat string `json:"lat"`
 	Lon string `json:"lon"`
 }
@@ -163,12 +150,11 @@ func (serializer LocationType) TypeName() string {
 }
 
 func (location LocationType) ToRawText(msg message.MessageSegment) string {
-	result := location.Deserialize(msg.Data, reflect.TypeOf(location)).(LocationType)
+	result := msg.Data.(LocationType)
 	return fmt.Sprintf("[OnebotV11:location,lat=%s,lon=%s]", result.Lat, result.Lon)
 }
 
 type MusicType struct {
-	message.MessageType
 	// "qq", "163", "xm" or "custom"
 	Type string `json:"type"`
 	// Official
@@ -190,12 +176,11 @@ func (serializer MusicType) TypeName() string {
 }
 
 func (music MusicType) ToRawText(msg message.MessageSegment) string {
-	result := music.Deserialize(msg.Data, reflect.TypeOf(music)).(MusicType)
+	result := msg.Data.(MusicType)
 	return fmt.Sprintf("[OnebotV11:music,type=%s,id=%s,url=%s,audio=%s,title=%s,content=%s,image=%s]", result.Type, result.ID, result.Url, result.Audio, result.Title, result.Content, result.Image)
 }
 
 type ReplyType struct {
-	message.MessageType
 	ID string `json:"id"`
 }
 
@@ -208,12 +193,11 @@ func (serializer ReplyType) TypeName() string {
 }
 
 func (reply ReplyType) ToRawText(msg message.MessageSegment) string {
-	result := reply.Deserialize(msg.Data, reflect.TypeOf(reply)).(ReplyType)
+	result := msg.Data.(ReplyType)
 	return fmt.Sprintf("[OnebotV11:reply,id=%s]", result.ID)
 }
 
 type ForwardType struct {
-	message.MessageType
 	ID string `json:"id"`
 }
 
@@ -226,13 +210,12 @@ func (serializer ForwardType) TypeName() string {
 }
 
 func (forward ForwardType) ToRawText(msg message.MessageSegment) string {
-	result := forward.Deserialize(msg.Data, reflect.TypeOf(forward)).(ForwardType)
+	result := msg.Data.(ForwardType)
 	return fmt.Sprintf("[OnebotV11:forward,id=%s]", result.ID)
 }
 
 // Node for forward
 type NodeType struct {
-	message.MessageType
 	// By ID
 	ID string `json:"id"`
 	// Custom
@@ -250,12 +233,11 @@ func (serializer NodeType) TypeName() string {
 }
 
 func (node NodeType) ToRawText(msg message.MessageSegment) string {
-	result := node.Deserialize(msg.Data, reflect.TypeOf(node)).(NodeType)
+	result := msg.Data.(NodeType)
 	return fmt.Sprintf("[OnebotV11:node,id=%s,user_id=%s,nickname=%s,content=%#v]", result.ID, result.UserID, result.Nickname, result.Content)
 }
 
 type XMLType struct {
-	message.MessageType
 	Data string `json:"data"`
 }
 
@@ -268,12 +250,11 @@ func (serializer XMLType) TypeName() string {
 }
 
 func (xml XMLType) ToRawText(msg message.MessageSegment) string {
-	result := xml.Deserialize(msg.Data, reflect.TypeOf(xml)).(XMLType)
+	result := msg.Data.(XMLType)
 	return fmt.Sprintf("[OnebotV11:xml,data=%s]", result.Data)
 }
 
 type JSONType struct {
-	message.MessageType
 	Data string `json:"data"`
 }
 
@@ -286,6 +267,6 @@ func (serializer JSONType) TypeName() string {
 }
 
 func (json JSONType) ToRawText(msg message.MessageSegment) string {
-	result := json.Deserialize(msg.Data, reflect.TypeOf(json)).(JSONType)
+	result := msg.Data.(JSONType)
 	return fmt.Sprintf("[OnebotV11:json,data=%s]", result.Data)
 }
