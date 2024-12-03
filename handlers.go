@@ -65,7 +65,6 @@ func messageDecoder(rawMsg string) {
 				msg.IsToMe = true
 			}
 		}
-		log.Println(msgUnit.Data)
 		if useAdapter != "" {
 			msgInterface.Data = ToMessageType(msgInterface.Type, msgUnit.Data)
 		} else {
