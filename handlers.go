@@ -21,7 +21,7 @@ func messageDecoder(rawMsg string) {
 	messageType := gjson.Get(rawMsg, "message_type")
 
 	var msg message.Message
-	var msgData []message.MessageSegment
+	var msgData []PayloadMessage
 
 	msg.Self = gjson.Get(rawMsg, "self_id").String()
 	msg.Sender = gjson.Get(rawMsg, "user_id").String()
@@ -48,7 +48,9 @@ func messageDecoder(rawMsg string) {
 		return
 	}
 
-	for _, msgInterface := range msgData {
+	for _, msgUnit := range msgData {
+		var msgInterface message.MessageSegment
+		msgInterface.Type = msgUnit.Type
 		useAdapter := OneBotV11.Name
 		if msgInterface.Type == "text" ||
 			msgInterface.Type == "image" ||
@@ -64,8 +66,16 @@ func messageDecoder(rawMsg string) {
 			}
 		}
 		if useAdapter != "" {
+			msgInterface.Data = msgUnit.Data.(message.MessageType)
 			msgInterface.Data = ToMessageType(msgInterface)
 		} else {
+			if msgInterface.Type == "text" {
+				msgInterface.Data = message.TextType{
+					Text: msgUnit.Data.(string),
+				}
+			} else {
+				msgInterface.Data = msgUnit.Data.(message.MessageType)
+			}
 			msgInterface.Data = message.ToBuiltIn(msgInterface)
 		}
 

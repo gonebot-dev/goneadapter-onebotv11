@@ -7,6 +7,11 @@ type ActionPayload struct {
 	Params any    `json:"params"`
 }
 
+type PayloadMessage struct {
+	Type string `json:"type"`
+	Data any    `json:"data"`
+}
+
 type SendPrivateMessage struct {
 	UserID  int64                    `json:"user_id"`
 	Message []message.MessageSegment `json:"message"`

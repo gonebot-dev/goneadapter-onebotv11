@@ -29,13 +29,13 @@ type PrivateMessage struct {
 	PostType    string `json:"post_type"`
 	MessageType string `json:"message_type"`
 	// "friend", "group" or "other"
-	SubType    string                   `json:"sub_type"`
-	MessageID  int64                    `json:"message_id"`
-	UserID     int64                    `json:"user_id"`
-	Message    []message.MessageSegment `json:"message"`
-	RawMessage string                   `json:"raw_message"`
-	Font       int64                    `json:"font"`
-	Sender     SenderObject             `json:"sender"`
+	SubType    string           `json:"sub_type"`
+	MessageID  int64            `json:"message_id"`
+	UserID     int64            `json:"user_id"`
+	Message    []PayloadMessage `json:"message"`
+	RawMessage string           `json:"raw_message"`
+	Font       int64            `json:"font"`
+	Sender     SenderObject     `json:"sender"`
 }
 
 type GroupMessage struct {
@@ -44,14 +44,14 @@ type GroupMessage struct {
 	PostType    string `json:"post_type"`
 	MessageType string `json:"message_type"`
 	// "normal", "notice" or "active"
-	SubType    string                   `json:"sub_type"`
-	MessageID  int64                    `json:"message_id"`
-	GroupID    int64                    `json:"group_id"`
-	UserID     int64                    `json:"user_id"`
-	Message    []message.MessageSegment `json:"message"`
-	RawMessage string                   `json:"raw_message"`
-	Font       int64                    `json:"font"`
-	Sender     SenderObject             `json:"sender"`
+	SubType    string           `json:"sub_type"`
+	MessageID  int64            `json:"message_id"`
+	GroupID    int64            `json:"group_id"`
+	UserID     int64            `json:"user_id"`
+	Message    []PayloadMessage `json:"message"`
+	RawMessage string           `json:"raw_message"`
+	Font       int64            `json:"font"`
+	Sender     SenderObject     `json:"sender"`
 }
 
 // Notice event, post type will always be "notice"
