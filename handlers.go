@@ -3,6 +3,7 @@ package onebotv11
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"log"
 	"regexp"
 	"strconv"
@@ -338,6 +339,7 @@ func sendHandler() {
 func actionHandler() {
 	for {
 		msg := OneBotV11.ActionChannel.Pull()
+		fmt.Println("Action received!")
 		var result ActionPayload
 
 		result.Params = msg.Action
