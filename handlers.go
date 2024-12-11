@@ -264,7 +264,9 @@ func receiveHandler() {
 	for {
 		_, msg, err := ws.ReadMessage()
 		if err != nil {
-			logging.Logf(zerolog.ErrorLevel, "OneBotV11", "Read message Error: \n%s", err)
+			logging.Logf(zerolog.ErrorLevel, "OneBotV11", "Read message Error: %s", err)
+			logging.Logf(zerolog.InfoLevel, "OneBotV11", "Aborting...")
+			finalize()
 			return
 		}
 		re := regexp.MustCompile(`\\u([0-9a-fA-F]{4})`)
