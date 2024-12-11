@@ -39,6 +39,8 @@ func start() {
 }
 
 func finalize() {
-	ws.Close()
+	if ws != nil {
+		ws.Close()
+	}
 	log.Println("[ONEBOTV11] | Shutting down.")
 }
