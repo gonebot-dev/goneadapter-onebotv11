@@ -265,6 +265,7 @@ func receiveHandler() {
 		_, msg, err := ws.ReadMessage()
 		if err != nil {
 			logging.Logf(zerolog.ErrorLevel, "OneBotV11", "Read message Error: \n%s", err)
+			return
 		}
 		re := regexp.MustCompile(`\\u([0-9a-fA-F]{4})`)
 		escapedMsg := re.ReplaceAllStringFunc(string(msg), func(match string) string {
