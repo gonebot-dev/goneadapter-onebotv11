@@ -3,19 +3,20 @@ package onebotv11
 import (
 	"bytes"
 	"encoding/json"
-	"log"
 	"regexp"
 	"strconv"
 	"strings"
 
+	"github.com/gonebot-dev/gonebot/logging"
 	"github.com/gonebot-dev/gonebot/message"
 	"github.com/gorilla/websocket"
+	"github.com/rs/zerolog"
 	"github.com/tidwall/gjson"
 )
 
 func messageDecoder(rawMsg string) {
 	if !gjson.Valid(rawMsg) {
-		log.Printf("[ONEBOTV11] | receiveHandler: Invalid message JSON %s\n", rawMsg)
+		logging.Logf(zerolog.ErrorLevel, "OneBotV11", "receiveHandler: Invalid message JSON %s\n", rawMsg)
 		return
 	}
 	messageType := gjson.Get(rawMsg, "message_type")
@@ -44,7 +45,7 @@ func messageDecoder(rawMsg string) {
 		msgData = msgInfo.Message
 
 	default:
-		log.Printf("[ONEBOTV11] | receiveHandler: Unsupported message type %s\n", messageType.String())
+		logging.Logf(zerolog.WarnLevel, "OneBotV11", "receiveHandler: Unsupported message type %s\n", messageType.String())
 		return
 	}
 
@@ -85,12 +86,12 @@ func messageDecoder(rawMsg string) {
 		rawMsg = rawMsg[:message.LOG_MESSAGE_LEN_THRESHOLD]
 		end = "..."
 	}
-	log.Printf("[ONEBOTV11] | receiveHandler: Receive message %s%s\n", rawMsg, end)
+	logging.Logf(zerolog.InfoLevel, "OneBotV11", "receiveHandler: Receive message %s%s\n", rawMsg, end)
 }
 
 func noticeDecoder(rawMsg string) {
 	if !gjson.Valid(rawMsg) {
-		log.Printf("[ONEBOTV11] | receiveHandler: Invalid notice JSON %s\n", rawMsg)
+		logging.Logf(zerolog.ErrorLevel, "OneBotV11", "receiveHandler: Invalid notice JSON %s\n", rawMsg)
 		return
 	}
 	noticeType := gjson.Get(rawMsg, "sub_type")
@@ -193,7 +194,7 @@ func noticeDecoder(rawMsg string) {
 		info = noticeInfo
 
 	default:
-		log.Printf("[ONEBOTV11] | receiveHandler: Unsupported notice type %s\n", noticeType.String())
+		logging.Logf(zerolog.WarnLevel, "OneBotV11", "receiveHandler: Unsupported notice type %s\n", noticeType.String())
 		return
 	}
 	notice := noticeType.String()
@@ -217,21 +218,21 @@ func noticeDecoder(rawMsg string) {
 		rawMsg = rawMsg[:message.LOG_MESSAGE_LEN_THRESHOLD]
 		end = "..."
 	}
-	log.Printf("[ONEBOTV11] | receiveHandler: Receive notice %s%s\n", rawMsg, end)
+	logging.Logf(zerolog.InfoLevel, "OneBotV11", "receiveHandler: Receive notice %s%s\n", rawMsg, end)
 }
 
 func handleReceive(rawMsg string) {
 	if !gjson.Valid(rawMsg) {
-		log.Printf("[ONEBOTV11] | Invalid message: %s\n", rawMsg)
+		logging.Logf(zerolog.ErrorLevel, "OneBotV11", "Invalid message: %s\n", rawMsg)
 		return
 	}
 	dataField := gjson.Get(rawMsg, "data")
 	if dataField.Exists() {
-		log.Printf("[ONEBOTV11] | receiveHandler: Receive action result %#v\n", dataField.Value())
+		logging.Logf(zerolog.InfoLevel, "OneBotV11", "receiveHandler: Receive action result %#v\n", dataField.Value())
 
 		// Ignore send message result
 		if gjson.Get(rawMsg, "data.message_id").Exists() && !gjson.Get(rawMsg, "data.time").Exists() {
-			log.Println("[ONEBOTV11] | receiveHandler: Ignore send message result")
+			logging.Log(zerolog.WarnLevel, "OneBotV11", "receiveHandler: Ignore send message result")
 			return
 		}
 		actionResult <- dataField.Value()
@@ -244,7 +245,7 @@ func handleReceive(rawMsg string) {
 			metaEventType := gjson.Get(rawMsg, "meta_event_type")
 			if metaEventType.Exists() {
 				if metaEventType.String() == "heartbeat" {
-					log.Println("[ONEBOTV11] | Receive heartbeat.")
+					logging.Log(zerolog.DebugLevel, "OneBotV11", "Receive heartbeat.")
 				}
 			}
 		case "message":
@@ -252,9 +253,9 @@ func handleReceive(rawMsg string) {
 		case "notice":
 			noticeDecoder(rawMsg)
 		case "request":
-			log.Println("[ONEBOTV11] | Request message currently unsupported.")
+			logging.Log(zerolog.WarnLevel, "OneBotV11", "Request message currently unsupported.")
 		default:
-			log.Printf("[ONEBOTV11] | Unsupported post type %s\n", postType.String())
+			logging.Logf(zerolog.WarnLevel, "OneBotV11", "Unsupported post type %s\n", postType.String())
 		}
 	}
 }
@@ -263,7 +264,7 @@ func receiveHandler() {
 	for {
 		_, msg, err := ws.ReadMessage()
 		if err != nil {
-			log.Printf("[ONEBOTV11] | Read message Error: \n%s\n", err)
+			logging.Logf(zerolog.ErrorLevel, "OneBotV11", "Read message Error: \n%s\n", err)
 		}
 		re := regexp.MustCompile(`\\u([0-9a-fA-F]{4})`)
 		escapedMsg := re.ReplaceAllStringFunc(string(msg), func(match string) string {
@@ -285,7 +286,7 @@ func sendHandler() {
 			// Private message
 			user, err := strconv.ParseInt(msg.Receiver, 10, 64)
 			if err != nil {
-				log.Printf("[ONEBOTV11] | sendHandler: Unable to parse user id %s\n", msg.Receiver)
+				logging.Logf(zerolog.ErrorLevel, "OneBotV11", "sendHandler: Unable to parse user id %s\n", msg.Receiver)
 				continue
 			}
 			result.Action = "send_private_msg"
@@ -298,7 +299,7 @@ func sendHandler() {
 			// Group message
 			group, err := strconv.ParseInt(msg.Group, 10, 64)
 			if err != nil {
-				log.Printf("[ONEBOTV11] | sendHandler: Unable to parse group id %s\n", msg.Group)
+				logging.Logf(zerolog.ErrorLevel, "OneBotV11", "sendHandler: Unable to parse group id %s\n", msg.Group)
 				continue
 			}
 			result.Action = "send_group_msg"
@@ -314,7 +315,7 @@ func sendHandler() {
 		jsonEncoder.SetEscapeHTML(false)
 		err := jsonEncoder.Encode(result)
 		if err != nil {
-			log.Printf("[ONEBOTV11] | sendHandler: Unable to marshal message %#v\n", result)
+			logging.Logf(zerolog.ErrorLevel, "OneBotV11", "sendHandler: Unable to marshal message %#v\n", result)
 			continue
 		}
 		jsonResult := bf.String()
@@ -327,11 +328,11 @@ func sendHandler() {
 			end = "..."
 		}
 		if err != nil {
-			log.Printf("[ONEBOTV11] | sendHandler: Unable to send message %s%s\n", jsonResult, end)
+			logging.Logf(zerolog.ErrorLevel, "OneBotV11", "sendHandler: Unable to send message %s%s\n", jsonResult, end)
 			continue
 		}
 
-		log.Printf("[ONEBOTV11] | sendHandler: Send message %s%s\n", jsonResult, end)
+		logging.Logf(zerolog.InfoLevel, "OneBotV11", "sendHandler: Send message %s%s\n", jsonResult, end)
 	}
 }
 
@@ -411,21 +412,21 @@ func actionHandler() {
 		case CleanCache:
 			result.Action = "clean_cache"
 		default:
-			log.Printf("[ONEBOTV11] | actionHandler: Unknown action %#v\n", msg.Action)
+			logging.Logf(zerolog.WarnLevel, "OneBotV11", "actionHandler: Unknown action %#v\n", msg.Action)
 			(*msg.ResultChannel) <- nil
 			continue
 		}
 
 		if msg.AdapterName != OneBotV11.Name {
 			(*msg.ResultChannel) <- nil
-			log.Printf("[ONEBOTV11] | actionHandler: Ignore action for %s\n", msg.AdapterName)
+			logging.Logf(zerolog.WarnLevel, "OneBotV11", "actionHandler: Ignore action for %s\n", msg.AdapterName)
 			continue
 		}
 
 		jsonResult, err := json.Marshal(result)
 		if err != nil {
 			(*msg.ResultChannel) <- nil
-			log.Printf("[ONEBOTV11] | actionHandler: Unable to marshal action %#v\n", result)
+			logging.Logf(zerolog.ErrorLevel, "OneBotV11", "actionHandler: Unable to marshal action %#v\n", result)
 			continue
 		}
 
@@ -441,12 +442,12 @@ func actionHandler() {
 		}
 		if err != nil {
 			(*msg.ResultChannel) <- nil
-			log.Printf("[ONEBOTV11] | actionHandler: Unable to send action %s%s...\n", jsonResult, end)
+			logging.Logf(zerolog.ErrorLevel, "OneBotV11", "actionHandler: Unable to send action %s%s...\n", jsonResult, end)
 			continue
 		}
-		log.Printf("[ONEBOTV11] | actionHandler: Send action %s%s\n", jsonResult, end)
+		logging.Logf(zerolog.InfoLevel, "OneBotV11", "actionHandler: Send action %s%s\n", jsonResult, end)
 		reply := <-actionResult
-		log.Printf("[ONEBOTV11] | actionHandler: Action %s%s received a result!%#v\n", jsonResult, end, reply)
+		logging.Logf(zerolog.InfoLevel, "OneBotV11", "actionHandler: Action %s%s received a result!%#v\n", jsonResult, end, reply)
 		(*msg.ResultChannel) <- reply
 	}
 }
