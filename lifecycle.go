@@ -46,5 +46,5 @@ func finalize() {
 	if ws != nil {
 		ws.Close()
 	}
-	logging.Log(zerolog.InfoLevel, "OneBotV11", "Shutting down.")
+	logging.Log(zerolog.InfoLevel, "OneBotV11", "Shutdown complete!")
 }
