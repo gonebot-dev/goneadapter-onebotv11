@@ -22,7 +22,7 @@ var actionResult chan any
 func init() {
 	OneBotV11.Name = "OneBot v11"
 	OneBotV11.Description = "The adapter for onebot v11 protocol"
-	OneBotV11.Version = "0.1.0"
+	OneBotV11.Version = "v0.2.3"
 	OneBotV11.Start = start
 	OneBotV11.Finalize = finalize
 	ws = nil
