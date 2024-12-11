@@ -16,9 +16,9 @@ func socketHandler(w http.ResponseWriter, r *http.Request) {
 	var err error
 	ws, err = upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		logging.Logf(zerolog.ErrorLevel, "OneBotV11", "Error creating connection: %s\n", err)
+		logging.Logf(zerolog.ErrorLevel, "OneBotV11", "Error creating connection: %s", err)
 	}
-	logging.Logf(zerolog.InfoLevel, "OneBotV11", "Connection Established.\n")
+	logging.Logf(zerolog.InfoLevel, "OneBotV11", "Connection Established.")
 	waitGroup := sync.WaitGroup{}
 	waitGroup.Add(3)
 	go receiveHandler()
@@ -38,7 +38,7 @@ func start() {
 	http.HandleFunc("/onebot/v11/ws", socketHandler)
 	err := http.ListenAndServe(BackendHostAddress, nil)
 	if err != nil {
-		logging.Logf(zerolog.FatalLevel, "OneBotV11", "Error establishing connection: %s\n", err)
+		logging.Logf(zerolog.FatalLevel, "OneBotV11", "Error establishing connection: %s", err)
 	}
 }
 
