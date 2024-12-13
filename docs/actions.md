@@ -1,40 +1,74 @@
 # 行为
 
 [全部行为](#sendprivatemessage)：
-	- [发送私聊消息](#sendprivatemessage)
-	- [发送群聊消息](#sendgroupmessage)
-	- [撤回消息](#deletemessage)
-	- [获取消息](#getmessage)
-	- [获取合并转发消息](#getforwardmessage)
-	- [发送好友赞](#sendlike)
-	- [踢出群成员](#setgroupkick)
-	- [禁言群成员](#setgroupban)
-	- [全体禁言](#setgroupwholeban)
-	- [设置管理员](#setgroupadmin)
-	- [设置群名片](#setgroupcard)
-	- [设置群名](#setgroupname)
-	- [退出（或解散）群聊](#setgroupleave)
-	- [设置专属头衔](#setgroupspecialtitle)
-	- [处理加好友请求](#setfriendaddrequest)
-	- [处理加群请求／邀请](#setgroupaddrequest)
-	- [获取登录信息](#getlogininfo)
-	- [获取陌生人信息](#getstrangerinfo)
-	- [获取好友列表](#getfriendlist)
-	- [获取群聊信息](#getgroupinfo)
-	- [获取群成员列表](#getgrouplist)
-	- [获取群成员信息](#getgroupmemberinfo)
-	- [获取群荣誉信息](#getgrouphonorinfo)
-	- [获取 Cookies](#getcookies)
-	- [获取 CSRF Token](#getcsrftoken)
-	- [获取 Credentials](#getcredentials)
-	- [获取语音](#getrecord)
-	- [获取图片](#getimage)
-	- [检查是否可以发送图片](#canuploadimage)
-	- [检查是否可以发送语音](#canuploadrecord)
-	- [获取机器人信息](#getstatus)
-	- [获取版本信息](#getversioninfo)
-	- [设置重启定时任务](#setrestart)
-	- [清理缓存](#cleancache)
+
+- [发送私聊消息](#sendprivatemessage)
+
+- [发送群聊消息](#sendgroupmessage)
+
+- [撤回消息](#deletemessage)
+
+- [获取消息](#getmessage)
+
+- [获取合并转发消息](#getforwardmessage)
+
+- [发送好友赞](#sendlike)
+
+- [踢出群成员](#setgroupkick)
+
+- [禁言群成员](#setgroupban)
+
+- [全体禁言](#setgroupwholeban)
+
+- [设置管理员](#setgroupadmin)
+
+- [设置群名片](#setgroupcard)
+
+- [设置群名](#setgroupname)
+
+- [退出（或解散）群聊](#setgroupleave)
+
+- [设置专属头衔](#setgroupspecialtitle)
+
+- [处理加好友请求](#setfriendaddrequest)
+
+- [处理加群请求／邀请](#setgroupaddrequest)
+
+- [获取登录信息](#getlogininfo)
+
+- [获取陌生人信息](#getstrangerinfo)
+
+- [获取好友列表](#getfriendlist)
+
+- [获取群聊信息](#getgroupinfo)
+
+- [获取群成员列表](#getgrouplist)
+
+- [获取群成员信息](#getgroupmemberinfo)
+
+- [获取群荣誉信息](#getgrouphonorinfo)
+
+- [获取 Cookies](#getcookies)
+
+- [获取 CSRF Token](#getcsrftoken)
+
+- [获取 Credentials](#getcredentials)
+
+- [获取语音](#getrecord)
+
+- [获取图片](#getimage)
+
+- [检查是否可以发送图片](#canuploadimage)
+
+- [检查是否可以发送语音](#canuploadrecord)
+
+- [获取机器人信息](#getstatus)
+
+- [获取版本信息](#getversioninfo)
+
+- [设置重启定时任务](#setrestart)
+
+- [清理缓存](#cleancache)
 
 **OneBotV11 适配器实现了所有 OneBotV11 协议支持的行为。所有的结构体定义如下：**
 
