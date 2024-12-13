@@ -4,6 +4,7 @@
 - [消息段](#payloadmessage)
 - [消息发送者](#senderobject)
 - [文件信息](#fileobject)
+
 [事件列表](#privatemessage)：
 - [私聊消息](#privatemessage)
 - [群聊消息](#groupmessage)
@@ -23,6 +24,8 @@
 - [群添加请求](#grouprequest)
 
 **OneBotV11 适配器实现了所有 OneBotV11 协议支持的事件。所有的结构体定义如下：**
+
+**这些事件会以对应的 `TypeName()` 中指定的类型出现在消息段中，你可以通过 `msg.GetSegments()[0].Type` 来判断该消息是否为事件消息**
 
 首先，我们定义了一些子类型和辅助类型：
 ### **PayloadMessage:**
@@ -61,7 +64,6 @@ type FileObject struct {
 	Busid int64  `json:"busid"`
 }
 ```
-**之后是所有的消息类型：**
 ### **PrivateMessage**
 私聊消息事件
 ```go
@@ -99,6 +101,7 @@ type GroupMessage struct {
 	Sender     SenderObject     `json:"sender"`
 }
 ```
+**之后是所有的消息类型：**
 ### **GroupFileUpload**
 群聊文件上传事件
 ```go
