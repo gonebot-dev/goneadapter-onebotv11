@@ -2,6 +2,8 @@ github.com/coreos/go-systemd/v22 v22.5.0/go.mod h1:Y58oyj3AT4RCenI/lSvhwexgC+NSV
 github.com/godbus/dbus/v5 v5.0.4/go.mod h1:xhWf0FNVPg57R7Z0UbKHbJfkEywrmjJnf7w5xrFpKfA=
 github.com/gonebot-dev/gonebot v1.1.5 h1:PCDkYxK8uvbGDLVMpM30pNpF2fxVgwXeMK5yRWeCmPA=
 github.com/gonebot-dev/gonebot v1.1.5/go.mod h1:sj8o76wPUPtS6bQanWmV8ZgBIrXAYgBfE5OQN1hkouo=
+github.com/gonebot-dev/gonebot v1.1.6 h1:XgGJwbX91AWcnv+ceGtT3/eO3367QHVOx7zH79qkGas=
+github.com/gonebot-dev/gonebot v1.1.6/go.mod h1:sj8o76wPUPtS6bQanWmV8ZgBIrXAYgBfE5OQN1hkouo=
 github.com/gorilla/websocket v1.5.3 h1:saDtZ6Pbx/0u+bgYQ3q96pZgCzfhKXGPqt7kZ72aNNg=
 github.com/gorilla/websocket v1.5.3/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
 github.com/mattn/go-colorable v0.1.13 h1:fFA4WZxdEF4tXPZVKMLwD8oUnCTTo08duU7wxecdEvA=

@@ -3,7 +3,7 @@ module github.com/gonebot-dev/goneadapter-onebotv11
 go 1.22.7
 
 require (
-	github.com/gonebot-dev/gonebot v1.1.5
+	github.com/gonebot-dev/gonebot v1.1.6
 	github.com/gorilla/websocket v1.5.3
 	github.com/rs/zerolog v1.33.0
 	github.com/tidwall/gjson v1.18.0
