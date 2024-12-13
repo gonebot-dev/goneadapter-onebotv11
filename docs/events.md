@@ -1,45 +1,25 @@
 # 事件
 
 [前置类型](#payloadmessage)：
-
 - [消息段](#payloadmessage)
-
 - [消息发送者](#senderobject)
-
 - [文件信息](#fileobject)
-
 [事件列表](#privatemessage)：
-
 - [私聊消息](#privatemessage)
-
 - [群聊消息](#groupmessage)
-
 - [群文件上传](#groupfileupload)
-
 - [群管理员变动](#adminchange)
-
 - [群成员减少](#groupmemberdecrease)
-
 - [群成员增加](#groupmemberincrease)
-
 - [群禁言](#groupban)
-
 - [好友添加](#friendadd)
-
 - [群消息撤回](#grouprecall)
-
 - [好友消息撤回](#friendrecall)
-
 - [群内戳一戳](#grouppoke)
-
 - [好友戳一戳](#friendpoke)
-
-- [红包运气往](#redpacketluckyking)
-
+- [红包运气王](#redpacketluckyking)
 - [群荣誉变更](#grouphonorchange)
-
 - [好友添加请求](#friendrequest)
-
 - [群添加请求](#grouprequest)
 
 **OneBotV11 适配器实现了所有 OneBotV11 协议支持的事件。所有的结构体定义如下：**

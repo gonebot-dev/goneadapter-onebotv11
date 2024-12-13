@@ -2,33 +2,19 @@
 
 [消息段类型](#facetype)
 - [QQ 表情](#facetype)
-
 - [@某人](#attype)
-
 - [猜拳魔法表情](#rpstype)
-
 - [掷骰子魔法表情](#dicetype)
-
 - [窗口抖动（戳一戳）](#shaketype)
-
 - [戳一戳大表情](#poketype)
-
 - [链接分享](#sharetyoe)
-
 - [推荐好友/群](#contacttype)
-
 - [位置](#locationtype)
-
 - [音乐分享/自定义分享](#musictype)
-
 - [回复](#replytype)
-
 - [合并转发](#forwardtype)
-
 - [合并转发节点/自定义节点](#nodetype)
-
 - [XML 消息](#xmltype)
-
 - [JSON 消息](#jsontype)
 
 **OneBotV11 适配器实现了所有 OneBotV11 协议支持的消息段类型。所有的结构体定义如下：**
