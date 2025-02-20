@@ -4,9 +4,18 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"sync"
 
 	"github.com/gorilla/websocket"
 )
+
+func networkConn(ws *websocket.Conn) {
+	var waitGroup sync.WaitGroup
+	waitGroup.Add(2)
+	go SendingMessage(ws)
+	go ReadingMessage(ws)
+	waitGroup.Wait()
+}
 
 // The main thread to receive messages.
 func socketHandler(w http.ResponseWriter, r *http.Request) {
@@ -21,7 +30,7 @@ func socketHandler(w http.ResponseWriter, r *http.Request) {
 	networkConn(ws)
 }
 
-func Initialization() {
+func Connector() {
 	BackendHostAddress := os.Getenv("ONEBOTV11_HOST")
 	if BackendHostAddress == "" {
 		BackendHostAddress = "127.0.0.1:21390"

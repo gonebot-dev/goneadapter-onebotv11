@@ -1,8 +1,6 @@
 package onebotv11
 
 import (
-	"sync"
-
 	"github.com/gonebot-dev/gonebot/adapter"
 	"github.com/gorilla/websocket"
 )
@@ -25,18 +23,10 @@ func init() {
 	OneBotV11Adapter.Description = "The adapter for onebot v11 protocol"
 	OneBotV11Adapter.Version = "v2.0.alpha"
 	OneBotV11Adapter.SupportedPlatform = "qq"
-	OneBotV11Adapter.Connector = nil
+	OneBotV11Adapter.Connector = Connector
 	ws = nil
 }
 
 func GetAdapter() adapter.GoneAdapter {
 	return OneBotV11Adapter
-}
-
-func networkConn(ws *websocket.Conn) {
-	var waitGroup sync.WaitGroup
-	waitGroup.Add(2)
-	go SendingMessage(ws)
-	go ReadingMessage(ws)
-	waitGroup.Wait()
 }
