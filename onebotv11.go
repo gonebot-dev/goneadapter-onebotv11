@@ -14,17 +14,19 @@ import (
 // You can override the host address to your liking by setting ONEBOTV11_HOST in .env file.
 //
 // And you should be aware that the host is your gonebot server, not any NTQQ protocol
-var OneBotV11 adapter.Adapter
+var OneBotV11Adapter adapter.GoneAdapter
 
 var ws *websocket.Conn
-var actionResult chan any
 
 func init() {
-	OneBotV11.Name = "OneBot v11"
-	OneBotV11.Description = "The adapter for onebot v11 protocol"
-	OneBotV11.Version = "v0.2.3"
-	OneBotV11.Start = start
-	OneBotV11.Finalize = finalize
+	OneBotV11Adapter.Name = "OneBotV11"
+	OneBotV11Adapter.Description = "The adapter for onebot v11 protocol"
+	OneBotV11Adapter.Version = "v2.0.alpha"
+	OneBotV11Adapter.SupportedPlatform = "qq"
+	OneBotV11Adapter.Connector = Connector
 	ws = nil
-	actionResult = make(chan any, 1)
+}
+
+func GetAdapter() adapter.GoneAdapter {
+	return OneBotV11Adapter
 }
